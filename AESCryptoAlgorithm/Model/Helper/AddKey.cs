@@ -22,7 +22,7 @@ namespace AESCryptoAlgorithm.Model.Helper
             KeySize = password.Length;
             for (int i = 0; i < 4; i++)
                 for (int j = 0; j < 4; j++)
-                    K[i, j] = (byte)(password[i * 4 + j]);
+                    K[j, i] = (byte)(password[i * 4 + j]);
 
             ExpandKey();
         }

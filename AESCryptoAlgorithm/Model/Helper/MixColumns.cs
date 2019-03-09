@@ -8,12 +8,12 @@ namespace AESCryptoAlgorithm.Model.Helper
 {
     class MixColumns
     {
-        readonly byte[,] matrixE = new byte[4, 4]{
+        static readonly byte[,] matrixE = new byte[4, 4]{
                                 {2, 3, 1, 1} ,
                                 {1, 2, 3, 1} ,
                                 {1, 1, 2, 3} ,
                                 {3, 1, 1, 2} };
-        readonly byte[,] InvMatrixE = new byte[4, 4]{
+        static readonly byte[,] InvMatrixE = new byte[4, 4]{
                                 {0x0E ,0x0B ,0x0D ,0x09},
                                 {0x09 ,0x0E ,0x0B ,0x0D},
                                 {0x0D ,0x09 ,0x0E ,0x0B},

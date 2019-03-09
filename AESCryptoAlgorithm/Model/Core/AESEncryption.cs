@@ -10,18 +10,33 @@ namespace AESCryptoAlgorithm.Model
     public class AESEncryption
     {
         private const int Nr = 10;
-       
-        public string Encrypt(string input, string password, bool isEncrypt)
-        {
-            if (password.Length != 16) throw new Exception("Password is not 128bit long");
+        private const int blockSize = 16;
 
-            var result = "";
-            //We will divide the text into Block of 16 chars
-            var blockSize = 16;
-            var blockIteration = (int)Math.Ceiling((input.Length * 1.0) / blockSize);
+        public string Encrypt(string plainText, string password)
+        {
+            if (plainText.Length % blockSize != 0)
+                plainText += new string(' ', blockSize - plainText.Length % blockSize);
+            var data = Encoding.UTF8.GetBytes(plainText);
+            var encByte = Process(data, password, true);
+            return Convert.ToBase64String(encByte);
+        }
+
+        public string Decrypt(string base64Text, string password)
+        {
+            var data = Convert.FromBase64String(base64Text);
+            var decByte = Process(data, password, false);
+            return Encoding.UTF8.GetString(decByte).Trim();
+        }
+
+        private byte[] Process(byte[] byteInput, string password, bool isEncrypt)
+        {
+            if (password.Length != blockSize) throw new Exception("Password is not 128bit long");
+
+            var result = new List<byte>();
+            //We will divide the byteInput into Block of 16 chars
+            var blockIteration = (int)Math.Ceiling((byteInput.Length * 1.0) / blockSize);
             var currentByteBlock = new byte[4, 4];
 
-            var byteInput = GetInput(input, blockSize);
 
             var substitute = new Substitution();
             var addKey = new AddKey(substitute, password);
@@ -65,17 +80,16 @@ namespace AESCryptoAlgorithm.Model
                     }
                     addKey.AddRoundKey(0, currentByteBlock);
                 }
-
-                string strResult = "";
+                
                 byte[] getByte = new byte[16];
                 for (int i = 0; i < 4; i++)
                     for (int j = 0; j < 4; j++)
                     {
-                        strResult += (char)currentByteBlock[j, i];
+                        result.Add(currentByteBlock[j, i]);
                     }
-                result += strResult;
+
             }
-            return result;
+            return result.ToArray();
         }
 
         private byte[] GetInput(string input, int blockSize)

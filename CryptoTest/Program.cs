@@ -13,9 +13,13 @@ namespace CryptoTest
         {
             var aes = new AESEncryption();
 
-            var enc = aes.Encrypt("This is a very long text to enumerate texts", "0cb7add6af7f6798", true);
+            var enc = aes.Encrypt("Simple text test", "0cb7add6af7f6798");
             Console.WriteLine(enc);
-            var res = aes.Encrypt(enc, "0cb7add6af7f6798", false);
+
+            var res = aes.Decrypt(enc, "0cb7add6af7f6798");
+            Console.WriteLine(res);
+
+            res = aes.Decrypt("q551elT6GfBsv0sjEGfE0Y6tOGcgZNcWebEDmAcfcfg=", "0cb7add6af7f6798");
             Console.WriteLine(res);
             Console.ReadLine();
         }
