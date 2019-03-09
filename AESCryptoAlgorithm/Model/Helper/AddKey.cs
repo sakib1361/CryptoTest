@@ -16,10 +16,14 @@ namespace AESCryptoAlgorithm.Model.Helper
         readonly byte[] Rcon = new byte[10] {
               0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36}; //for 128-bit only
 
-        internal AddKey(Substitution substitution, int keySize)
+        internal AddKey(Substitution substitution, string password)
         {
             Substitution = substitution;
-            KeySize = keySize;
+            KeySize = password.Length;
+            for (int i = 0; i < 4; i++)
+                for (int j = 0; j < 4; j++)
+                    K[i, j] = (byte)(password[i * 4 + j]);
+
             ExpandKey();
         }
         internal void AddRoundKey(int rnd, byte[,] state)

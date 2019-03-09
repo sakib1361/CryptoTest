@@ -49,5 +49,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AESCryptoAlgorithm\AESCryptoAlgorithm.csproj">
+      <Project>{05169C5F-D14A-4132-B391-E7EE379F8A50}</Project>
+      <Name>AESCryptoAlgorithm</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

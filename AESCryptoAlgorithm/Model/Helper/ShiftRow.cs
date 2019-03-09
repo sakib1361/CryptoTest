@@ -8,7 +8,7 @@ namespace AESCryptoAlgorithm.Model.Helper
 {
     class ShiftRow
     {
-        private void ByteShift(byte[,] state)
+        internal void ByteShift(byte[,] state)
         {
             byte tmp;
             //First row Now Shift
@@ -35,5 +35,30 @@ namespace AESCryptoAlgorithm.Model.Helper
             state[3, 2] = state[3, 1];
             state[3, 1] = tmp;
         }
+
+        internal void InvByteShift(byte[,] state)
+        {
+            byte tmp;
+            tmp = state[1, 0];
+            state[1, 0] = state[1, 3];
+            state[1, 3] = state[1, 2];
+            state[1, 2] = state[1, 1];
+            state[1, 1] = tmp;
+
+            tmp = state[2, 0];
+            state[2, 0] = state[2, 2];
+            state[2, 2] = tmp;
+            tmp = state[2, 1];
+            state[2, 1] = state[2, 3];
+            state[2, 3] = tmp;
+
+            tmp = state[3, 0];
+            state[3, 0] = state[3, 1];
+            state[3, 1] = state[3, 2];
+            state[3, 2] = state[3, 3];
+            state[3, 3] = tmp;
+
+        }
+
     }
 }

@@ -13,8 +13,13 @@ namespace AESCryptoAlgorithm.Model.Helper
                                 {1, 2, 3, 1} ,
                                 {1, 1, 2, 3} ,
                                 {3, 1, 1, 2} };
+        readonly byte[,] InvMatrixE = new byte[4, 4]{
+                                {0x0E ,0x0B ,0x0D ,0x09},
+                                {0x09 ,0x0E ,0x0B ,0x0D},
+                                {0x0D ,0x09 ,0x0E ,0x0B},
+                                {0x0B ,0x0D ,0x09 ,0x0E}};
 
-        internal void AppluColumn(byte[,] state)
+        internal void ApplyColumn(byte[,] state)
         {
             byte[,] result = new byte[4, 4];
 
@@ -31,40 +36,26 @@ namespace AESCryptoAlgorithm.Model.Helper
             }
         }
 
-        private byte Multiply(byte row, byte col)
+        internal void InvApplyColumn(byte[,] state)
         {
-            switch (row)
+            byte[,] result = new byte[4, 4];
+
+            for (int col = 0; col < 4; col++)
             {
-                case 3:
-                    return XPlus1Time(col);
-                case 2:
-                    return XTime(col);
-                case 1:
-                    return col;
-                default:
-                    throw new Exception("Mix COlumn Multiply is getting unknown value");
+
+                for (int row = 0; row < 4; row++)
+                {
+                    result[row, col] = (byte)(Multiply(InvMatrixE[row, 0], state[0, col]) ^
+                                             Multiply(InvMatrixE[row, 1], state[1, col]) ^
+                                             Multiply(InvMatrixE[row, 2], state[2, col]) ^
+                                             Multiply(InvMatrixE[row, 3], state[3, col]));
+                }
             }
         }
 
-        public static byte XTime(byte b)
+        private byte Multiply(byte row, byte col)
         {
-            //Left Shift
-            byte top = (byte)((b << 1) & 0xFF);
-
-            //Is Highest Bit 1
-            bool highBitIsSet = (0x80 & b) == 0x80;
-
-            //if set, we get the x4+x3+x+1 bit value
-            byte bottom = highBitIsSet ? (byte)0x1B : (byte)0;
-
-            byte sum = (byte)(top ^ bottom);
-            return sum;
-        }
-
-        private static byte XPlus1Time(byte b)
-        {
-            //get XTime and xor with it
-            return (byte)(XTime(b) ^ b);
+            return FiniteFieldMath.Multiply(row, col);
         }
     }
 }

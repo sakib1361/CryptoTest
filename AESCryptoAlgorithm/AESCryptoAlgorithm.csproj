@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Model\Core\AESEncryption.cs" />
     <Compile Include="Model\Helper\AddKey.cs" />
+    <Compile Include="Model\Helper\FiniteFieldMath.cs" />
     <Compile Include="Model\Helper\MixColumns.cs" />
     <Compile Include="Model\Helper\ShiftRow.cs" />
     <Compile Include="Model\Helper\Substitution.cs" />
