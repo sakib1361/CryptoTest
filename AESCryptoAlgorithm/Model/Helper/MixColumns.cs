@@ -9,10 +9,10 @@ namespace AESCryptoAlgorithm.Model.Helper
     class MixColumns
     {
         static readonly byte[,] matrixE = new byte[4, 4]{
-                                {2, 3, 1, 1} ,
-                                {1, 2, 3, 1} ,
-                                {1, 1, 2, 3} ,
-                                {3, 1, 1, 2} };
+                                {0x02, 0x03, 0x01, 0x01} ,
+                                {0x01, 0x02, 0x03, 0x01} ,
+                                {0x01, 0x01, 0x02, 0x03} ,
+                                {0x03, 0x01, 0x01, 0x02} };
         static readonly byte[,] InvMatrixE = new byte[4, 4]{
                                 {0x0E ,0x0B ,0x0D ,0x09},
                                 {0x09 ,0x0E ,0x0B ,0x0D},
@@ -34,6 +34,10 @@ namespace AESCryptoAlgorithm.Model.Helper
                                              Multiply(matrixE[row, 3], state[3, col]));
                 }
             }
+            for (int row = 0; row < 4; row++)
+                for (int col = 0; col < 4; col++)
+                    state[row, col] = result[row, col];
+
         }
 
         internal void InvApplyColumn(byte[,] state)
@@ -51,6 +55,9 @@ namespace AESCryptoAlgorithm.Model.Helper
                                              Multiply(InvMatrixE[row, 3], state[3, col]));
                 }
             }
+            for (int row = 0; row < 4; row++)
+                for (int col = 0; col < 4; col++)
+                    state[row, col] = result[row, col];
         }
 
         private byte Multiply(byte row, byte col)

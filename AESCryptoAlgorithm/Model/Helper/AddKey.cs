@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AESCryptoAlgorithm.Engine;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,15 +24,20 @@ namespace AESCryptoAlgorithm.Model.Helper
             for (int i = 0; i < 4; i++)
                 for (int j = 0; j < 4; j++)
                     K[j, i] = (byte)(password[i * 4 + j]);
-
+            LogEngine.LogBytes(K, "Key");
             ExpandKey();
         }
         internal void AddRoundKey(int rnd, byte[,] state)
         {
             int i, j;
+            var temp = new byte[4, 4];
             for (i = 0; i < 4; i++)
                 for (j = 0; j < 4; j++)
-                    state[j, i] ^= EK[rnd * 4 + i, j];
+                {
+                    state[i, j] ^= EK[rnd * 4 + i, j];
+                    temp[i, j] = EK[rnd * 4 + i, j];
+                }
+            LogEngine.LogBytes(temp, "Round Key");
         }
         private void RotWord(byte[] arr)
         {

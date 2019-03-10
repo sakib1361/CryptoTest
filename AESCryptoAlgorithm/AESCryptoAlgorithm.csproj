@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Engine\LogEngine.cs" />
     <Compile Include="Model\Core\AESEncryption.cs" />
     <Compile Include="Model\Helper\AddKey.cs" />
     <Compile Include="Model\Helper\FiniteFieldMath.cs" />

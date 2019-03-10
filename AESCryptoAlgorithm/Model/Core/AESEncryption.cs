@@ -1,4 +1,5 @@
-﻿using AESCryptoAlgorithm.Model.Helper;
+﻿using AESCryptoAlgorithm.Engine;
+using AESCryptoAlgorithm.Model.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,17 +15,33 @@ namespace AESCryptoAlgorithm.Model
 
         public string Encrypt(string plainText, string password)
         {
-            if (plainText.Length % blockSize != 0)
-                plainText += new string(' ', blockSize - plainText.Length % blockSize);
             var data = Encoding.UTF8.GetBytes(plainText);
+
+            if (data.Length % blockSize == 0)
+                data = data.Concat(ByteFactory(blockSize, blockSize)).ToArray();
+            else
+            {
+                var remainder = blockSize - data.Length % blockSize;
+                data = data.Concat(ByteFactory((byte)remainder, remainder)).ToArray();
+            }
+
             var encByte = Process(data, password, true);
             return Convert.ToBase64String(encByte);
+        }
+
+        private byte[] ByteFactory(byte val, int count)
+        {
+            var b = new byte[count];
+            for (int no = 0; no < count; no++) b[no] = val;
+            return b;
         }
 
         public string Decrypt(string base64Text, string password)
         {
             var data = Convert.FromBase64String(base64Text);
             var decByte = Process(data, password, false);
+            var lastByte = (int)decByte.LastOrDefault();
+            decByte = decByte.Take(decByte.Length - lastByte).ToArray();
             return Encoding.UTF8.GetString(decByte).Trim();
         }
 
@@ -49,21 +66,30 @@ namespace AESCryptoAlgorithm.Model
                 //COnvert to a blockArray of 4x4
                 for (int i = 0; i < 4; i++)
                     for (int j = 0; j < 4; j++)
+                    {
                         currentByteBlock[j, i] = byteInput[blockStart + i * 4 + j];
-
+                    }
+                LogEngine.LogBytes(currentByteBlock, "Current Block");
                 if (isEncrypt)
                 {
                     addKey.AddRoundKey(0, currentByteBlock);
+                    LogEngine.LogBytes(currentByteBlock, "Current Block , Round" + 0);
                     for (int rnd = 1; rnd < Nr; rnd++)
                     {
                         substitute.ByteSubstitute(currentByteBlock);
+                        LogEngine.LogBytes(currentByteBlock, "Substitute Byte");
                         shiftRow.ByteShift(currentByteBlock);
+                        LogEngine.LogBytes(currentByteBlock, "Shift Row");
                         mixColumn.ApplyColumn(currentByteBlock);
+                        LogEngine.LogBytes(currentByteBlock, "Mix Column");
                         addKey.AddRoundKey(rnd, currentByteBlock);
+                        LogEngine.LogBytes(currentByteBlock, "Current Block , Round" + rnd);
                     }
                     substitute.ByteSubstitute(currentByteBlock);
                     shiftRow.ByteShift(currentByteBlock);
                     addKey.AddRoundKey(Nr, currentByteBlock);
+
+                    LogEngine.LogBytes(currentByteBlock, "Current Block , Round" + Nr);
                 }
                 else
                 {
