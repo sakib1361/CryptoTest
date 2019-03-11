@@ -23,7 +23,7 @@ namespace AESCryptoAlgorithm.Model.Helper
             KeySize = password.Length;
             for (int i = 0; i < 4; i++)
                 for (int j = 0; j < 4; j++)
-                    K[j, i] = (byte)(password[i * 4 + j]);
+                    K[i, j] = (byte)(password[i * 4 + j]);
             LogEngine.LogBytes(K, "Key");
             ExpandKey();
         }
@@ -34,8 +34,8 @@ namespace AESCryptoAlgorithm.Model.Helper
             for (i = 0; i < 4; i++)
                 for (j = 0; j < 4; j++)
                 {
-                    state[i, j] ^= EK[rnd * 4 + i, j];
-                    temp[i, j] = EK[rnd * 4 + i, j];
+                    state[j, i] ^= EK[rnd * 4 + i, j];
+                    temp[j, i] = EK[rnd * 4 + i, j];
                 }
             LogEngine.LogBytes(temp, "Round Key");
         }

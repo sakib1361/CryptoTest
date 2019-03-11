@@ -12,7 +12,11 @@ namespace AESCryptoAlgorithm.Engine
         {
 #if DEBUG
             Console.WriteLine("\n" + name);
-            Console.WriteLine(string.Join(" ", data));
+            for (int col = 0; col < 4; col++)
+            {
+                Console.Write(string.Format(" {0}", data[col].ToString("X2")));
+            }
+            Console.WriteLine();
 #endif
         }
 
