@@ -1,4 +1,4 @@
-﻿using AESCryptoAlgorithm.Model;
+﻿using CryptoAlgorithm.Model;
 using System;
 
 namespace CryptoTest
