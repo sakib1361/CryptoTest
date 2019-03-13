@@ -1,0 +1,39 @@
+﻿<metro:MetroWindow x:Class="UDPChat.Pages.HomePage"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                   xmlns:local="clr-namespace:UDPChat.Pages"
+                   mc:Ignorable="d"
+                   xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+                   Title="HomePage"
+                   Height="450"
+                   DataContext="{Binding Source={StaticResource Locator}, Path=HomePageModel}"
+                   d:DataContext="{d:DesignInstance local:HomePageModel, IsDesignTimeCreatable=False}"
+                   Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="545*" />
+            <ColumnDefinition Width="249*" />
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBox Text="{Binding Message}"
+                     VerticalContentAlignment="Center"
+                     metro:TextBoxHelper.Watermark="Message..." />
+            <Button Style="{StaticResource AccentButton}"
+                    Grid.Column="1"
+                    VerticalAlignment="Stretch"
+                    Padding="15,5"
+                    Content="Send" />
+        </Grid>
+    </Grid>
+</metro:MetroWindow>

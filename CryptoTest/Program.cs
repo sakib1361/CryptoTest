@@ -15,12 +15,7 @@ namespace CryptoTest
             var res = aes.Decrypt(enc, "0cb7add6af7f6798");
             Console.WriteLine(res);
 
-            res = aes.Decrypt("ZTa5NYNsSdBDGe/3r91I1Q==", "0cb7add6af7f6798");
-
-            enc = aes.Encrypt("Two One Nine Two", "Thats my Kung Fu");
-            Console.WriteLine(enc);
-
-            res = aes.Decrypt(enc, "Thats my Kung Fu");
+            res = aes.Decrypt("IFyZBTM2aYSkjl82GU/+r7Vlgk9xJJqJtHzufk9p9og=", "1234567812345678");
             Console.WriteLine(res);
 
 
