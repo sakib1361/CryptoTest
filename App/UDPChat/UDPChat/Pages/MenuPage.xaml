@@ -4,7 +4,7 @@
              Title="Menu"
              BindingContext="{Binding Source={StaticResource Locator}, Path=HomePageModel}"
              x:Class="UDPChat.Pages.MenuPage">
-    <Grid>
+    <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />

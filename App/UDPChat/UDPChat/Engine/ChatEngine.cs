@@ -20,7 +20,10 @@ namespace UDPChat.Engine
         public void Start(string address)
         {
             var m_GrpAddr = IPAddress.Parse(address);
-            UdpClient = new UdpClient();
+            UdpClient = new UdpClient
+            {
+                EnableBroadcast = true
+            };
             IPEndPoint = new IPEndPoint(m_GrpAddr,Port);
             UdpClient.Client.Bind(new IPEndPoint(IPAddress.Any,Port));
             UdpClient.JoinMulticastGroup(m_GrpAddr);
