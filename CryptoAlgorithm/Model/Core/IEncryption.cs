@@ -8,5 +8,7 @@ namespace CryptoAlgorithm.Model
 {
     public interface IEncryption
     {
+        string Encrypt(string plainText, string password);
+        string Decrypt(string base64Text, string password);
     }
 }

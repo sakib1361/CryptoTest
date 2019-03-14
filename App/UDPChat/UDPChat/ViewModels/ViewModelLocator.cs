@@ -1,9 +1,5 @@
-﻿using GalaSoft.MvvmLight.Ioc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CryptoAlgorithm.Model;
+using GalaSoft.MvvmLight.Ioc;
 using UDPChat.Engine;
 using UDPChat.Pages;
 
@@ -13,6 +9,7 @@ namespace UDPChat.ViewModels
     {
         public ViewModelLocator()
         {
+            SimpleIoc.Default.Register<IEncryption, AESEncryption>();
             SimpleIoc.Default.Register<ChatEngine>();
             SimpleIoc.Default.Register<HomePageModel>();
         }

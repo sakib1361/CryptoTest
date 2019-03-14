@@ -1,12 +1,50 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:UDPChat.Pages"
+             Title="UDP"
+             BindingContext="{Binding Source={StaticResource Locator}, Path=HomePageModel}"
              x:Class="UDPChat.Pages.HomePage">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
-    </ContentPage.Content>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ListView HasUnevenRows="True"
+                  SelectionMode="None"
+                  ItemsSource="{Binding RoomChats}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Frame CornerRadius="3"
+                               VerticalOptions="Start"
+                               BorderColor="SkyBlue"
+                               Padding="5"
+                               IsClippedToBounds="True"
+                               Margin="3">
+                            <StackLayout Margin="5">
+                                <Label Text="{Binding From}"
+                                       TextColor="Gray" FontSize="10"/>
+                                <Label Text="{Binding Message}" />
+                            </StackLayout>
+                        </Frame>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Grid Grid.Row="1"
+              Margin="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Editor Placeholder="{Binding PlaceHolder}"
+                    Text="{Binding Message}" />
+            <Button Grid.Column="1"
+                    WidthRequest="100"
+                    Command="{Binding SendCommand}"
+                    BackgroundColor="LightGray"
+                    Text="Send" />
+        </Grid>
+    </Grid>
 </ContentPage>

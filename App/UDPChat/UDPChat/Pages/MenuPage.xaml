@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Menu"
+             BindingContext="{Binding Source={StaticResource Locator}, Path=HomePageModel}"
+             x:Class="UDPChat.Pages.MenuPage">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackLayout Margin="5,10">
+            <Label Text="Username"
+                   FontAttributes="Bold"
+                   FontSize="10" />
+            <Entry Text="{Binding Username}"
+                   Placeholder="PlaceHolder" />
+            <Label Text="Password"
+                   FontAttributes="Bold"
+                   FontSize="10" />
+            <Entry Text="{Binding Password}"
+                   Placeholder="Password" />
+        </StackLayout>
+        <ListView ItemsSource="{Binding LogDatas}"
+                  SelectionMode="None"
+                  Grid.Row="1">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Label FontSize="10"
+                               TextColor="Black"
+                               Text="{Binding}" />
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</ContentPage>

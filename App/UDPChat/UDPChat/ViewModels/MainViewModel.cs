@@ -1,10 +1,12 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using PropertyChanged;
 using System;
 using System.Windows.Input;
 
 namespace UDPChat.ViewModels
 {
+    [AddINotifyPropertyChangedInterface]
     public class MainViewModel : ViewModelBase
     {
         public bool IsBusy { get; set; }

@@ -4,11 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace CryptoAlgorithm.Model
 {
-    public class AESEncryption
+    public class AESEncryption : IEncryption
     {
         private const int Nr = 10;
         private const int blockSize = 16;
@@ -106,7 +105,7 @@ namespace CryptoAlgorithm.Model
                     }
                     addKey.AddRoundKey(0, currentByteBlock);
                 }
-                
+
                 byte[] getByte = new byte[16];
                 for (int i = 0; i < 4; i++)
                     for (int j = 0; j < 4; j++)
@@ -135,7 +134,7 @@ namespace CryptoAlgorithm.Model
                 paddByte[i] = 0x20;
             }
             var charByte = input.ToCharArray();
-            foreach(var item in charByte)
+            foreach (var item in charByte)
             {
                 byteList.Add((byte)(item));
             }

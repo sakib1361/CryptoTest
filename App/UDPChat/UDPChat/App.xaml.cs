@@ -11,8 +11,10 @@ namespace UDPChat
         public App()
         {
             InitializeComponent();
-
-            MainPage = new HomePage();
+#if DEBUG
+            // LiveReload.Init();
+#endif
+            MainPage = new MainPage();
         }
 
         protected override void OnStart()

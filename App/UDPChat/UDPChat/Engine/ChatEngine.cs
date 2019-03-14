@@ -13,13 +13,15 @@ namespace UDPChat.Engine
     {
         private const int Port = 1819;
         public UdpClient UdpClient;
-        private bool Active;
+        public bool Active { get; private set; }
         public event EventHandler<ChatObject> MesssageReceived;
+        private IPEndPoint IPEndPoint;
 
         public void Start(string address)
         {
             var m_GrpAddr = IPAddress.Parse(address);
             UdpClient = new UdpClient();
+            IPEndPoint = new IPEndPoint(m_GrpAddr,Port);
             UdpClient.Client.Bind(new IPEndPoint(IPAddress.Any,Port));
             UdpClient.JoinMulticastGroup(m_GrpAddr);
             Active = true;
@@ -43,7 +45,7 @@ namespace UDPChat.Engine
             {
                 var rawMsg = JsonConvert.SerializeObject(chObj);
                 var sendBytes = Encoding.UTF8.GetBytes(rawMsg);
-                await UdpClient.SendAsync(sendBytes, sendBytes.Length);
+                await UdpClient.SendAsync(sendBytes, sendBytes.Length, IPEndPoint);
             }
             catch (Exception ex)
             {
